@@ -38,7 +38,7 @@ function projectSummary() {
     "",
     `Name: ${value("name")}`,
     `Phone: ${value("phone")}`,
-    `Email: ${value("email")}`,
+    `Email: ${value("_replyto")}`,
     `Project location: ${value("location")}`,
     `Type of work: ${value("service")}`,
     `Preferred timing: ${value("timing")}`,
@@ -53,16 +53,11 @@ function setFormStatus(message) {
 }
 
 if (projectForm) {
-  projectForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-    if (!projectForm.reportValidity()) return;
-    const data = new FormData(projectForm);
-    const name = String(data.get("name") || "Customer").trim();
-    const service = String(data.get("service") || "Electrical project").trim();
-    const subject = `Project request — ${service} — ${name}`;
-    setFormStatus("Opening your email app with the project details. Add photos if helpful, then send.");
-    window.location.href = `mailto:Estimates@ajmelectricalsolutions.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(projectSummary())}`;
-  });
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("submitted") === "1") {
+    setFormStatus("Thanks. Your quote request was submitted to AjM. For urgent electrical issues, call (705) 790-6008.");
+    window.history.replaceState({}, "", `${window.location.pathname}${window.location.hash}`);
+  }
 }
 
 if (copyProjectButton) {
@@ -72,7 +67,7 @@ if (copyProjectButton) {
       await navigator.clipboard.writeText(projectSummary());
       setFormStatus("Project details copied. Paste them into an email to Estimates@ajmelectricalsolutions.com.");
     } catch {
-      setFormStatus("Copy was blocked by your browser. Select the form details manually or use Email Project Details.");
+      setFormStatus("Copy was blocked by your browser. Select the form details manually or use Send Quote Request.");
     }
   });
 }
