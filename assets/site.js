@@ -38,7 +38,7 @@ function projectSummary() {
     "",
     `Name: ${value("name")}`,
     `Phone: ${value("phone")}`,
-    `Email: ${value("_replyto")}`,
+    `Email: ${value("email")}`,
     `Project location: ${value("location")}`,
     `Type of work: ${value("service")}`,
     `Preferred timing: ${value("timing")}`,
