@@ -30,6 +30,15 @@ jobs:
           mkdir _site
           cp -R *.html assets robots.txt sitemap.xml _site/
           touch _site/.nojekyll
+          python3 - <<'PY'
+          from pathlib import Path
+          for page in ('about', 'commercial', 'contact', 'holiday-lighting', 'industrial', 'projects', 'residential', 'services'):
+              content = Path(f'{page}.html').read_text(encoding='utf-8')
+              content = content.replace('<head>\n', '<head>\n  <base href="/">\n', 1)
+              route = Path('_site') / page
+              route.mkdir(parents=True, exist_ok=True)
+              (route / 'index.html').write_text(content, encoding='utf-8')
+          PY
       - name: Upload site artifact
         uses: actions/upload-pages-artifact@v4
         with:

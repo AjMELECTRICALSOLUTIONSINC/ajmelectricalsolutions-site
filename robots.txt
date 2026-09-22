@@ -1,6 +1,11 @@
 User-agent: *
 Allow: /
-
 Content-signal: search=yes, ai-input=yes, ai-train=no, use=reference
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: GPTBot
+Disallow: /
 
 Sitemap: https://ajmelectricalsolutions.com/sitemap.xml
